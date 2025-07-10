@@ -1,17 +1,14 @@
 from flask import Flask,render_template,redirect , request, session
 import psycopg2
+import os
+import psycopg2.extras
 
 app = Flask(__name__)
 app.secret_key = '@abc123DEF456#'
 
 def get_db_connection():
-    return psycopg2.connect(
-        dbname="postgres",
-        user="postgres",
-        password="psql123",
-        host="localhost",
-        port="5433"
-    )
+    DATABASE_URL = os.environ.get("DATABASE_URL")
+    return psycopg2.connect(DATABASE_URL)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -75,4 +72,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
